@@ -109,36 +109,8 @@ namespace Supermarket.Test
             Assert.That(result.Products.Count, Is.EqualTo(3));
 
         }
+           
 
-
-        [Test]
-        public void ShouldCheckDiscount()
-        {
-            Double result = _utilities.checkDiscount(receipt);
-
-            Assert.That(Math.Round(result,2), Is.EqualTo(4.61));
-
-        }
-
-        [Test]
-        public void ShouldApplyBuyOneGetOneFree()
-        {
-            Double result = _utilities.ApplyBuyOneGetOneFree(itemsBought);
-
-            Assert.That(Math.Round(result, 2), Is.EqualTo(9.33));
-
-        }
-
-        [Test]
-        public void ShouldApplyBuyThreeOrMore()
-        {
-            Double result = _utilities.ApplyBuyThreeOrMore(itemsBought);
-
-            Assert.That(Math.Round(result, 2), Is.EqualTo(4.50));
-
-        }
-
- 
 
     }
 }

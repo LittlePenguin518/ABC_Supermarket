@@ -12,17 +12,13 @@ namespace Supermarket
             Product productToAdd=new Product();
             List<Product> products = new List<Product>();
 
-            foreach (var p in JsonConvert.DeserializeObject<Product[]>(File.ReadAllText(@"products.json")))
+            foreach (Product p in JsonConvert.DeserializeObject<Product[]>(File.ReadAllText(@"products.json")))
             {
-                productToAdd.ProductCode = p.ProductCode;
-                productToAdd.ProductName = p.ProductName;
-                productToAdd.ProductPrice = p.ProductPrice;
-                products.Add(productToAdd);
-                ItemsForSales.Products=products;
+                products.Add(p);
             }
 
+            ItemsForSales.Products=products;
             return ItemsForSales;
-          
         }
 
         public void PrintStock()
@@ -44,39 +40,6 @@ namespace Supermarket
             Console.WriteLine("Press 3 for exit\n");
         }
 
-        public double checkDiscount(Receipt receipt)
-        {
-            double totalDiscount = 0;
-
-            List<ItemBought> itemsBought = receipt.ItemsBought;
-            totalDiscount = ApplyBuyOneGetOneFree(itemsBought) + ApplyBuyThreeOrMore(itemsBought);
-
-            return totalDiscount;
-        }
-
-        public double ApplyBuyOneGetOneFree(List<ItemBought> itemsBought)
-        {
-
-            var fruitTeaBought = itemsBought.FindAll(x => x.Item.ProductCode == "FR1").ToList();
-            int fruitTeaBoughtTotal = (int)fruitTeaBought.Sum(x => x.Quantity);
-            double discountFruitTea = fruitTeaBoughtTotal - (fruitTeaBoughtTotal % 2);
-            discountFruitTea = (discountFruitTea / 2) * fruitTeaBought[0].Item.ProductPrice;
-
-            return discountFruitTea;
-        }
-
-        public double ApplyBuyThreeOrMore(List<ItemBought> itemsBought)
-        {
-            var strawberriesBought = itemsBought.FindAll(x => x.Item.ProductCode == "SR1").ToList();
-            double discountStrawberries = 0;
-            if (strawberriesBought.Sum(x => x.Quantity) >= 3)
-            {
-                discountStrawberries = strawberriesBought.Sum(x => x.Quantity) * .50;
-            }
-
-            return discountStrawberries;
-        }
-
         public void Checkout(string inputProductCode)
         {   
 
@@ -96,7 +59,7 @@ namespace Supermarket
 
                 if (inputProductCode != "0")
                 {
-                    if (stock.Products.Where(x => x.ProductCode == inputProductCode).ToList().Count > 0)
+                    if (stock.Products.Select(x => x.ProductCode == inputProductCode).ToList().Count > 0)
                     {
                         Product itemSelected = stock.Products.Where(x => x.ProductCode == inputProductCode).First();
 
@@ -114,7 +77,10 @@ namespace Supermarket
                         itemsBought.Add(itemBought);
                         receipt.ItemsBought = itemsBought;
 
-                        Console.WriteLine("Your total purchase before any discount £" + receipt.Subtotal);
+                        Console.WriteLine("Total purchase before any discount £" + receipt.Subtotal);
+                        Console.WriteLine("Total purchase after discount £" + receipt.TotalTransaction);
+
+                        if(receipt.totalDiscount!=0) Console.WriteLine("Discount applied £" + receipt.totalDiscount);
                     }
                     else
                     {
@@ -128,8 +94,7 @@ namespace Supermarket
                 count++;
             }
 
-            receipt.Discount = checkDiscount(receipt);
-            Console.WriteLine("Your total transaction is £" + receipt.TotalTransaction);
+            Console.WriteLine("Total purchase to pay £" + receipt.TotalTransaction);
             Console.WriteLine("Please enter your payment");
             paymentReceived = Convert.ToDouble(Console.ReadLine());
 
@@ -137,7 +102,5 @@ namespace Supermarket
             Console.WriteLine("Thank you for shopping with us\n Please call again\n\n");
 
         }
-
-
     }
 }
