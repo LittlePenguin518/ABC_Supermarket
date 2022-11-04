@@ -11,6 +11,7 @@ D:\Moj\Supermarket\Supermarket.Test\bin\Debug\net6.0\nunit.engine.dll
 D:\Moj\Supermarket\Supermarket.Test\bin\Debug\net6.0\nunit.engine.api.dll
 D:\Moj\Supermarket\Supermarket.Test\bin\Debug\net6.0\nunit.engine.core.dll
 D:\Moj\Supermarket\Supermarket.Test\bin\Debug\net6.0\testcentric.engine.metadata.dll
+D:\Moj\Supermarket\Supermarket.Test\bin\Debug\net6.0\products.json
 D:\Moj\Supermarket\Supermarket.Test\bin\Debug\net6.0\Supermarket.Test.deps.json
 D:\Moj\Supermarket\Supermarket.Test\bin\Debug\net6.0\Supermarket.Test.runtimeconfig.json
 D:\Moj\Supermarket\Supermarket.Test\bin\Debug\net6.0\Supermarket.Test.dll

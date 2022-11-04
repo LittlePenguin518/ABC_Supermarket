@@ -1,4 +1,5 @@
-﻿using Supermarket.Model;
+﻿using Newtonsoft.Json;
+using Supermarket.Model;
 
 namespace Supermarket
 {
@@ -7,31 +8,21 @@ namespace Supermarket
     {
         public Stock GetListOfItemAvailable()
         {
-            Stock ItemsForSales = new Stock()
+            Stock ItemsForSales = new Stock();
+            Product productToAdd=new Product();
+            List<Product> products = new List<Product>();
+
+            foreach (var p in JsonConvert.DeserializeObject<Product[]>(File.ReadAllText(@"products.json")))
             {
-                Products = new List<Product>
-                {
-                    new()
-                    {
-                        ProductCode = "FR1",
-                        ProductName= "Fruit tea",
-                        ProductPrice=3.11
-                    },
-                      new()
-                    {
-                        ProductCode = "SR1",
-                        ProductName= "Strawberries",
-                        ProductPrice=5.00
-                    },
-                      new()
-                    {
-                        ProductCode = "CF1",
-                        ProductName= "Coffee",
-                        ProductPrice=11.23
-                    }
-                }
-            };
+                productToAdd.ProductCode = p.ProductCode;
+                productToAdd.ProductName = p.ProductName;
+                productToAdd.ProductPrice = p.ProductPrice;
+                products.Add(productToAdd);
+                ItemsForSales.Products=products;
+            }
+
             return ItemsForSales;
+          
         }
 
         public void PrintStock()
